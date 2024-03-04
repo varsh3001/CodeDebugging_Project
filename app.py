@@ -1,14 +1,16 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,redirect,url_for
 
 app = Flask(__name__)
 
 notes = []
 @app.route('/', methods=["GET","POST"])
 def index():
-    note = request.form.get("note")
-    notes.append(note)
+    if request.method=='POST':
+        note = request.form.get("note")
+        notes.append(note)
+        return redirect(url_for('index'))
     return render_template("home.html", notes=notes)
 
 if __name__ == "__main__":
-    app.debug=True
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True)
+    
